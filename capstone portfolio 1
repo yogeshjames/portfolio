@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> MY RESUME </title></head>
+<body>
+<h3>Education </h3>
+   <p> STUDYING IN NITT TRICHY </P>
+   <ul>
+   <li> moderate experience in linux and bash scripting</li>
+   <li> basic knowledge in networking </li>
+   <li> comfortable in using linux os </li>
+   <li> participated in few bug bounty and ctf challenges </li></ul>
+<img srrc="https://media.chatterblock.com/cache/e5/98/e598d08e294befee3a0f9945aa651a3c.png"> 
+<footer>
+<p>Author: Y0ge$#</p>
+<p><a href="mailto:hege@example.com">hege@example.com</a></p>
+</footer>
+</body>
+</html>
+  
