@@ -13,6 +13,8 @@ for(var i=0 ; i<4;i++){
     }
     else if(uk === ''){
         names[i].style.display = 'block';
+        // note u cna use the display property as 'list-item' to keep the bulletin preserved also u can use other display properties and also we can make invisible  
+        property instaed of none
     }
     else{
         names[i].style.display='none';
