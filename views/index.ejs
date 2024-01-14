@@ -1,6 +1,10 @@
 <%- include("partials/header.ejs") %>
 
-<p><span style="font-weight: bold; color: black;">welcome </span> <span style="color: red; font-weight: bold;"><%= san %></span> </P>
+<% if(locals.san){ %>
+  <p><span style="font-weight: bold; color: black;">welcome </span> <span style="color: red; font-weight: bold;"><%=san%></span> </P>
+    <% } else { %>
+  <p><span style="font-weight: bold; color: black;">welcome </span> </p>
+  <% } %> 
   <h1>Home Page</h1>
 
   <p>Lorem ipsum dolor sit amet, et proin, justo mus. Porta suspendisse turpis netus sagittis tortor at, vitae aliquet
