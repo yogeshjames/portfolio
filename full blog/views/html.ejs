@@ -1,0 +1,57 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="/styles.css">
+    <title>Your Blog</title>
+</head>
+
+<body>
+    <header>
+        <h1>Your Blog</h1>
+    </header>
+
+    <main>
+        <section id="create-post">
+            <h2>Create a New Post</h2>
+            <form action="/create" method="post">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" required></textarea>
+
+                <button type="submit">Create Post</button>
+            </form>
+        </section>
+
+        <section id="view-posts">
+            <h2>All Posts</h2>
+            <!-- Display all posts here -->
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <h3><%= post.title %></h3>
+                    <p><%= post.content %></p>
+                    <a href="/edit?id=<%= post.id %>">Edit</a>
+                    <button onclick="deletePost('<%= post.id %>')">Delete</button>
+                
+                </div>
+            <% }); %>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2022 Your Blog</p>
+    </footer>
+
+    <script>
+        function deletePost(postId) {
+            window.location.href = "/delete?id=postId";
+        }
+    </script>
+</body>
+
+</html>
