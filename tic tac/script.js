@@ -1,69 +1,109 @@
-var x=0;
-var y=0;
-for (var i = 0; i < 9; i++) {
-    (function(index) {
-        document.querySelectorAll(".button-option")[index].addEventListener("click", function() {
-           x+=1;
-           if(y==0){
-               document.querySelectorAll(".button-option")[index].innerText = "x";
-           y=1;}
-           else{
-            document.querySelectorAll(".button-option")[index].innerText = "o";
-            y=0;
-           }
-           if(x>3){
-            cond();
-         }
-         
-        });
-    })(i);
+let currentplayer = "X";
+let board = ["", "", "", "", "", "", "", "", ""];
+let gameactive = true;
+let playerxTime = 10;
+let playeroTime = 10;
+let timer;
+const winningcondi = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
+
+const buttons = document.querySelectorAll(".button-option");
+const newGameButton = document.getElementById("new-game");
+const popup = document.querySelector(".popup");
+const message = document.getElementById("message");
+const head = document.getElementById("head");
+
+buttons.forEach((button, index) => {
+    button.addEventListener("click", () => handleMove(index));
+});
+
+newGameButton.addEventListener("click", resetGame);
+
+function handleMove(index) {
+    if (board[index] !== "" || !gameactive) return;
+
+    board[index] = currentplayer;
+    buttons[index].textContent = currentplayer;
+
+    if (checkWin()) {
+        endGame(`${currentplayer} wins!`);
+        return;
+    }
+
+    if (board.every(cell => cell !== "")) {
+        endGame("It's a draw!");
+        return;
+    }
+
+    switchPlayer();
+}
+
+function switchPlayer() {
+    clearInterval(timer);
+    currentplayer = currentplayer === "X" ? "O" : "X";
+    head.textContent = `Player ${currentplayer}'s Move`;
+
+    if (currentplayer === "X") {
+        playerxTime = 10;
+    } else {
+        playeroTime = 10;
+    }
+
+    startTimer();
+}
+function startTimer() {
+    timer = setInterval(() => {
+        if (currentplayer === "X") {
+            playerxTime--;
+            document.getElementById("playerXTime").textContent = `Player X: ${playerxTime}s`;
+            if (playerxTime <= 0) {
+                endGame("Player O wins by timeout!");
+            }
+        } else {
+            playeroTime--;
+            document.getElementById("playerOTime").textContent = `Player O: ${playeroTime}s`;
+            if (playeroTime <= 0) {
+                endGame("Player X wins by timeout!");
+            }
+        }
+    }, 1000);
 }
 
 
+function checkWin() {
+    return winningcondi.some(condition => {
+        const [a, b, c] = condition;
+        return board[a] === currentplayer && board[a] === board[b] && board[a] === board[c];
+    });
+}
 
-var arr = [
-    [0, 1, 2],
-    [0, 3, 6],
-    [2, 5, 8],
-    [6, 7, 8],
-    [3, 4, 5],
-    [1, 4, 7],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
+function endGame(messageText) {
+    clearInterval(timer);
+    gameactive = false;
+    popup.classList.remove("hide");
+    message.textContent = messageText;
+}
 
-  function cond(){
-    for(var i=0;i<9;i++){
-        var b=arr[i][0];
-        var c=arr[i][1];
-        var d=arr[i][2];
-        var n = document.querySelectorAll(".button-option")[b].innerText;
-        var f = document.querySelectorAll(".button-option")[c].innerText;
-        var w = document.querySelectorAll(".button-option")[d].innerText;
-        if (n=="x"&& f=="x"&& w=="x"){
-            document.getElementById("restart").innerText="Player 1 wins/";
-            
-            setTimeout(function() {
-                location.reload();
-              }, 1000);
-              break;
-        }
-        else if (n=="o"&& f=="o"&& w=="o") {
-            document.getElementById("restart").innerText="Player 2 wins/";
-            
-            setTimeout(function() {
-                location.reload();
-              }, 1000);
-              break;
-        }
-        else{
-           if(x>8){
-            document.getElementById("restart").innerText="Draw/";
-            setTimeout(function() { 
-                location.reload();
-              }, 1000);
-            break;
-           }
-        }
-    }
-  }
+function resetGame() {
+    console.log(1);
+    board = ["", "", "", "", "", "", "", "", ""];
+    buttons.forEach(button => (button.textContent = ""));
+    gameactive = true;
+    currentplayer = "X";
+    head.textContent = `Player ${currentplayer}'s Move`;
+    popup.classList.add("hide");
+    playerxTime = 10;
+    playeroTime = 10;
+    startTimer();
+}
+
+
+startTimer();
